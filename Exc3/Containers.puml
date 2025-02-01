@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Container>
+title Контекстная диаграмма PropDevelopment (C4-модель, уровень 1)
+
+Person(Owner, "Собственник", "Управляет доступом к дому через мобильное приложение")
+Person(Admin, "Администратор УК", "Управляет правами доступа пользователей")
+System(SmartHomePartner, "Партнёр-сервис Умный Дом", "Интеграция с интеллектуальными устройствами")
+
+System_Boundary(MobileApp, "PropDevelopment Мобильное приложение") {
+    Container(SmartIntercom, "Интеллектуальный домофон", "Открывает дверь по биометрии")
+    Container(SmartBarrier, "Интеллектуальный шлагбаум", "Открывает шлагбаум по номеру автомобиля")
+}
+
+ContainerDb(UserDB, "База данных пользователей", "Хранит учетные записи пользователей")
+ContainerDb(LogsDB, "Логирование событий", "Журналирует события доступа")
+
+Rel(Owner, MobileApp, "Использует для управления\n(доступ в дом, контроль)")
+Rel(Admin, MobileApp, "Управляет правами доступа\n(одобрение заявок)")
+Rel(SmartHomePartner, MobileApp, "API-интеграция\n(обмен данными о доступе)")
+
+Rel(MobileApp, SmartIntercom, "Открытие двери по биометрии")
+Rel(MobileApp, SmartBarrier, "Автоматический доступ по номеру авто")
+Rel(SmartIntercom, LogsDB, "Запись событий доступа")
+Rel(SmartBarrier, LogsDB, "Запись событий проезда")
+Rel(MobileApp, UserDB, "Проверка прав доступа")
+
+@enduml
