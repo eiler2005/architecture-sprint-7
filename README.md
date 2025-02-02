@@ -1,1 +1,0 @@
-# architecture-sprint-7
